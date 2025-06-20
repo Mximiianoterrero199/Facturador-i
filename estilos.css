@@ -1,0 +1,84 @@
+    body {
+      margin: 0;
+      background: radial-gradient(circle, #0f0f0f 0%, #000000 100%);
+      color: #00ffff;
+      font-family: 'Orbitron', monospace;
+      cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym27.cur'), auto;
+      overflow-x: hidden;
+    }
+    .navbar {
+      background-color: #000;
+      border-bottom: 2px solid #00ffff;
+      box-shadow: 0 0 10px #00ffff55;
+      z-index: 1050;
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' fill='%2300ffff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,255,255,0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    #sidebar {
+      width: 260px;
+      background: linear-gradient(135deg, #001f3f, #003366);
+      border-right: 2px solid #00ffff;
+      box-shadow: 5px 0 30px #00ffff88;
+      color: #fff;
+      padding: 20px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -260px;
+      transition: left 0.4s ease;
+      z-index: 1040;
+    }
+    #sidebar.active {
+      left: 0;
+    }
+    .contenido {
+      padding: 1rem;
+      max-width: 100%;
+    }
+    .factura-card {
+      background-color: #1a1a1a;
+      border: 2px solid #00ffff;
+      box-shadow: 0 0 20px #00ffff66;
+      color: #0ff;
+    }
+    .btn-primary {
+      background-color: #ff00cc;
+      border: none;
+      font-weight: bold;
+    }
+    .btn-primary:hover {
+      background-color: #ff33cc;
+    }
+    input.form-control {
+      background-color: #000;
+      color: #00ffff;
+      border: 1px solid #ff00cc;
+    }
+    .scan {
+      animation: scan 0.5s ease-in-out;
+    }
+    @keyframes scan {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .delete-btn {
+      background-color: #ff0033;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-top: 5px;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 576px) {
+      .factura-card {
+        padding: 1rem;
+      }
+      .contenido {
+        padding: 0.75rem;
+      }
+      input.form-control,
+      button.btn {
+        font-size: 1rem;
+      }
+    }
