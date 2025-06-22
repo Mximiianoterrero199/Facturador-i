@@ -1,112 +1,121 @@
-const FacturadorApp = (() => {
-      let total = parseFloat(localStorage.getItem('totalVentas')) || 0;
-      let facturas = JSON.parse(localStorage.getItem('facturas')) || [];
+const FacturadorApp = {
+  generarFactura() {
+    const cliente = document.getElementById('cliente').value.trim();
+    const producto = document.getElementById('producto').value.trim();
+    const precio = parseFloat(document.getElementById('precio').value);
+    const cantidad = parseInt(document.getElementById('cantidad').value);
 
-      function init() {
-        total = Math.max(total, 0);
-        document.getElementById("totalVentas").textContent = `$${total.toFixed(2)}`;
-        document.getElementById("factura").innerHTML = "";
-      }
+    if (!cliente || !producto || isNaN(precio) || isNaN(cantidad)) {
+      alert('Por favor, completá todos los campos correctamente.');
+      return;
+    }
 
-      function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("active");
-      }
+    const nuevaFactura = {
+      cliente,
+      producto,
+      precio,
+      cantidad,
+      fecha: new Date().toISOString()
+    };
 
-      function generarFactura() {
-        const cliente = document.getElementById("cliente").value.trim();
-        const producto = document.getElementById("producto").value.trim();
-        const precio = parseFloat(document.getElementById("precio").value);
-        const cantidad = parseInt(document.getElementById("cantidad").value);
-        const beep = document.getElementById("beep");
+    const facturas = JSON.parse(localStorage.getItem('facturas')) || [];
+    facturas.unshift(nuevaFactura); // Insertar arriba
+    localStorage.setItem('facturas', JSON.stringify(facturas));
 
-        if (!cliente || !producto || isNaN(precio) || isNaN(cantidad) || precio < 0 || cantidad < 1) {
-          alert("Completá todos los campos correctamente.");
-          return;
-        }
+    this.renderFacturas();
+    this.limpiarFormulario();
+    this.sonar('beep-add');
+    this.mostrarExito();
+    recalcularTotal();
+  },
 
-        const fecha = new Date().toISOString();
-        const factura = { cliente, producto, precio, cantidad, fecha };
-        facturas.push(factura);
-        total += precio * cantidad;
+  limpiarFormulario() {
+    document.getElementById('cliente').value = '';
+    document.getElementById('producto').value = '';
+    document.getElementById('precio').value = '';
+    document.getElementById('cantidad').value = 1;
+  },
 
-        localStorage.setItem('facturas', JSON.stringify(facturas));
-        localStorage.setItem('totalVentas', total.toFixed(2));
-        document.getElementById("totalVentas").textContent = `$${total.toFixed(2)}`;
+  renderFacturas() {
+    const contenedor = document.getElementById('factura');
+    contenedor.innerHTML = '';
+    const facturas = JSON.parse(localStorage.getItem('facturas')) || [];
 
-        document.getElementById("cliente").value = "";
-        document.getElementById("producto").value = "";
-        document.getElementById("precio").value = "";
-        document.getElementById("cantidad").value = "1";
+    facturas.forEach((f, index) => {
+      const fecha = new Date(f.fecha).toLocaleString("es-AR", {
+        day: "2-digit", month: "2-digit", year: "2-digit",
+        hour: "2-digit", minute: "2-digit"
+      });
 
-        beep.play().catch(() => {});
-      }
+      const cantidad = f.cantidad || 1;
+      const total = (f.precio * cantidad).toFixed(2);
 
-      function eliminarFactura(i) {
-        total -= facturas[i].precio * facturas[i].cantidad;
-        facturas.splice(i, 1);
-        total = Math.max(total, 0);
-        localStorage.setItem('facturas', JSON.stringify(facturas));
-        localStorage.setItem('totalVentas', total.toFixed(2));
-        document.getElementById("totalVentas").textContent = `$${total.toFixed(2)}`;
-        filtrarFacturas();
-      }
+      const div = document.createElement("div");
+      div.className = "producto";
 
-      function filtrarFacturas() {
-        const texto = document.getElementById("buscar").value.toLowerCase().trim();
-        const contenedor = document.getElementById("factura");
-        contenedor.innerHTML = "";
-        if (texto === "") return;
+      const texto = document.createElement("div");
+      texto.innerHTML = `
+        <strong>📅 ${fecha}</strong><br />
+        <span>${f.producto}</span> — Cantidad: ${cantidad} — <strong>Total: $${total}</strong>
+      `;
 
-        let coincidencias = 0;
-        facturas.forEach((factura, i) => {
-          const contenido = `${factura.cliente} ${factura.producto}`.toLowerCase();
-          if (contenido.includes(texto)) {
-            renderFactura(factura, i);
-            coincidencias++;
-          }
-        });
+      const button = document.createElement("button");
+      button.textContent = "Borrar";
+      button.className = "borrar";
+      button.addEventListener("click", () => {
+        if (!confirm("¿Estás seguro de eliminar esta factura?")) return;
 
-        if (coincidencias === 0) {
-          const aviso = document.createElement("div");
-          aviso.className = "mt-3 text-info";
-          aviso.textContent = "🔍 Sin resultados para esta búsqueda.";
-          contenedor.appendChild(aviso);
-        }
-      }
+        facturas.splice(index, 1);
+                localStorage.setItem('facturas', JSON.stringify(facturas));
+        this.renderFacturas();
+        recalcularTotal();
+      });
 
-      function renderFactura(factura, index) {
-        const totalLinea = (factura.precio * factura.cantidad).toFixed(2);
-        const cont = document.createElement("div");
-        cont.className = "card p-4 factura-card mt-3 scan";
-        cont.dataset.index = index;
-        const fechaFormateada = new Date(factura.fecha).toLocaleString("es-AR", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-        cont.innerHTML = `
-          <h2 class="card-title">Factura</h2>
-          <p><strong>Cliente:</strong> ${factura.cliente}</p>
-          <p><strong>Producto:</strong> ${factura.producto}</p>
-          <p><strong>Cantidad:</strong> ${factura.cantidad}</p>
-          <p><strong>Precio unitario:</strong> $${factura.precio.toFixed(2)}</p>
-          <p><strong>Total:</strong> $${totalLinea}</p>
-          <p><strong>Fecha:</strong> ${fechaFormateada}</p>
-          <button class="delete-btn" onclick="FacturadorApp.eliminarFactura(${index})">Eliminar</button>
-        `;
-        document.getElementById("factura").appendChild(cont);
-      }
+      div.appendChild(texto);
+      div.appendChild(button);
+      contenedor.appendChild(div);
+    });
+  },
 
-      return {
-        init,
-        toggleSidebar,
-        generarFactura,
-        eliminarFactura,
-        filtrarFacturas
-      };
-    })();
+  mostrarExito() {
+    const mensaje = document.getElementById("mensajeExito");
+    if (mensaje) {
+      mensaje.classList.remove("d-none");
+      setTimeout(() => mensaje.classList.add("d-none"), 2000);
+    }
+  },
 
-    window.onload = FacturadorApp.init;
-  
+  sonar(id) {
+    const sonido = document.getElementById(id);
+    if (sonido) {
+      sonido.currentTime = 0;
+      sonido.play();
+    }
+  },
+
+  toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar) {
+      sidebar.classList.toggle("d-none");
+    }
+  }
+};
+
+function recalcularTotal() {
+  const facturas = JSON.parse(localStorage.getItem('facturas')) || [];
+  const total = facturas.reduce((acum, f) => {
+    const cantidad = f.cantidad || 1;
+    return acum + (f.precio * cantidad);
+  }, 0);
+
+  const totalEl = document.getElementById("totalVentas");
+  totalEl.textContent = `$${total.toFixed(2)}`;
+
+  totalEl.classList.add("animado");
+  setTimeout(() => totalEl.classList.remove("animado"), 300);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  FacturadorApp.renderFacturas();
+  recalcularTotal();
+});

@@ -1,84 +1,176 @@
-    body {
-      margin: 0;
-      background: radial-gradient(circle, #0f0f0f 0%, #000000 100%);
-      color: #00ffff;
-      font-family: 'Orbitron', monospace;
-      cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym27.cur'), auto;
-      overflow-x: hidden;
-    }
-    .navbar {
-      background-color: #000;
-      border-bottom: 2px solid #00ffff;
-      box-shadow: 0 0 10px #00ffff55;
-      z-index: 1050;
-    }
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' fill='%2300ffff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,255,255,0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    }
-    #sidebar {
-      width: 260px;
-      background: linear-gradient(135deg, #001f3f, #003366);
-      border-right: 2px solid #00ffff;
-      box-shadow: 5px 0 30px #00ffff88;
-      color: #fff;
-      padding: 20px;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: -260px;
-      transition: left 0.4s ease;
-      z-index: 1040;
-    }
-    #sidebar.active {
-      left: 0;
-    }
-    .contenido {
-      padding: 1rem;
-      max-width: 100%;
-    }
-    .factura-card {
-      background-color: #1a1a1a;
-      border: 2px solid #00ffff;
-      box-shadow: 0 0 20px #00ffff66;
-      color: #0ff;
-    }
-    .btn-primary {
-      background-color: #ff00cc;
-      border: none;
-      font-weight: bold;
-    }
-    .btn-primary:hover {
-      background-color: #ff33cc;
-    }
-    input.form-control {
-      background-color: #000;
-      color: #00ffff;
-      border: 1px solid #ff00cc;
-    }
-    .scan {
-      animation: scan 0.5s ease-in-out;
-    }
-    @keyframes scan {
-      0% { opacity: 0; transform: translateY(-10px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-    .delete-btn {
-      background-color: #ff0033;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      margin-top: 5px;
-      font-size: 0.8rem;
-    }
-    @media (max-width: 576px) {
-      .factura-card {
-        padding: 1rem;
-      }
-      .contenido {
-        padding: 0.75rem;
-      }
-      input.form-control,
-      button.btn {
-        font-size: 1rem;
-      }
-    }
+body {
+  background-color: #0a0a0a;
+  color: #0ff;
+  font-family: 'Orbitron', monospace;
+  padding: 2rem;
+}
+
+.navbar {
+  background-color: #111 !important;
+  border-bottom: 2px solid #0ff !important;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.53);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+  color: #00ffff !important;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00ffff, 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.navbar-toggler {
+  border: 1px solid #00ffff;
+  box-shadow: 0 0 6px #00ffff;
+  background-color: #000;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%2300ffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.8));
+}
+
+.seccion-titulo {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+  padding-bottom: 0.3rem;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
+}
+
+#sidebar {
+  background: linear-gradient(180deg, #111, #0a0a0a);
+  padding: 1rem 1.5rem;
+  border: 1px solid #00ffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.33);
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+#totalVentas {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+hr.separador {
+  border: none;
+  height: 1px;
+  background: radial-gradient(circle, #0ff, transparent);
+  margin: 2rem 0;
+}
+
+.factura-card {
+  background-color: #111;
+  border: 1px solid #00ffff;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+input {
+  background-color: #000;
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  box-shadow: 0 0 4px rgba(0, 255, 255, 0.3) inset;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.btn-primary {
+  background-color: #00ffff;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 0 8px #00ffff;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #00cccc;
+}
+
+.producto {
+  background-color: #111;
+  padding: 16px 24px;
+  border: 1px solid rgba(0, 255, 255, 0.7);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), inset 0 0 6px rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  animation: fadeIn 0.4s ease-out, pulsoNeon 5s infinite;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.producto strong {
+  font-size: 1rem;
+  color: #00ffff;
+}
+
+.producto span {
+  font-size: 0.9rem;
+  color: #adf7ff;
+}
+
+.borrar {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.borrar:hover {
+  background-color: #c0392b;
+  box-shadow: 0 0 8px rgba(255, 91, 91, 0.5);
+}
+
+.alert-success {
+  background-color: #00ff66;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulsoNeon {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.33),
+                inset 0 0 6px rgba(0, 255, 255, 0.13);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6),
+                inset 0 0 10px rgba(0, 255, 255, 0.4);
+  }
+}
+
+@media (max-width: 768px) {
+  .contenido .row {
+    flex-direction: column;
+  }
+
+  .producto {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
