@@ -5,57 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>⚡ Facturador Cyberpunk</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-  <nav class="navbar navbar-dark">
+  <nav class="navbar navbar-expand-lg container">
     <span class="navbar-brand">⚡ Facturador Cyberpunk</span>
-    <button class="navbar-toggler" type="button" onclick="FacturadorApp.toggleSidebar()">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <input class="form-check-input" type="checkbox" id="modoOscuroToggle" />
+      <label for="modoOscuroToggle" class="form-check-label">🌙</label>
+    </div>
   </nav>
 
-  <div class="container contenido">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="factura-card">
-          <h4 class="seccion-titulo">➕ Nueva factura</h4>
+  <div class="container my-4">
+    <!-- Botones para cambiar de vista -->
+    <div class="mb-3">
+      <button class="btn btn-outline-primary" onclick="FacturadorApp.mostrarPrincipal()">🏠 Volver al formulario</button>
+      <button class="btn btn-outline-secondary" onclick="FacturadorApp.mostrarHistorial()">📋 Ver historial</button>
+    </div>
 
-          <label>Cliente</label>
-          <input type="text" id="cliente" class="form-control mb-2" />
+    <!-- Sección Formulario -->
+    <div id="seccionFormulario">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="factura-card">
+            <h5 class="seccion-titulo">➕ Nueva factura</h5>
 
-          <label>Producto</label>
-          <input type="text" id="producto" class="form-control mb-2" />
+            <label class="form-label">Cliente</label>
+            <input type="text" id="cliente" class="form-control mb-2" list="clientesList" />
+            <datalist id="clientesList"></datalist>
 
-          <label>Precio</label>
-          <input type="number" id="precio" class="form-control mb-2" />
+            <label class="form-label">Producto</label>
+            <input type="text" id="producto" class="form-control mb-2" list="productosList" />
+            <datalist id="productosList"></datalist>
 
-          <label>Cantidad</label>
-          <input type="number" id="cantidad" class="form-control mb-3" min="1" value="1" />
+            <label class="form-label">Precio</label>
+            <input type="number" id="precio" class="form-control mb-2" />
 
-          <button class="btn btn-primary w-100" onclick="FacturadorApp.generarFactura()">Generar Factura</button>
+            <label class="form-label">Cantidad</label>
+            <input type="number" id="cantidad" class="form-control mb-3" min="1" value="1" />
 
-          <div id="mensajeExito" class="alert alert-success mt-3 d-none">✅ Factura registrada</div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="aplicarIVA" />
+              <label class="form-check-label" for="aplicarIVA">Aplicar IVA (21%)</label>
+            </div>
+
+            <button class="btn btn-primary w-100" onclick="FacturadorApp.generarFactura()">Generar Factura</button>
+            <div id="mensajeExito" class="alert alert-success mt-3 d-none">✅ Factura registrada</div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="mb-3 d-flex gap-2 flex-wrap">
+            <input type="text" id="filtroCliente" class="form-control" placeholder="Filtrar por cliente..." />
+            <input type="text" id="filtroProducto" class="form-control" placeholder="Filtrar por producto..." />
+            <button class="btn btn-outline-secondary" onclick="FacturadorApp.limpiarFiltros()">Limpiar filtros</button>
+          </div>
+
+          <div id="sidebar" class="mb-4">
+            <h5>Total de Ventas: <span id="totalVentas">$0.00</span></h5>
+            <small id="contadorFacturas" class="text-muted"></small>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-lg-8">
-        <div id="sidebar" class="mb-4">
-          <h4>Total de Ventas</h4>
-          <h2 id="totalVentas">$0.00</h2>
-        </div>
-
-        <hr class="separador" />
-
-        <h4 class="seccion-titulo">🧾 Facturas generadas</h4>
-        <div id="factura"></div>
-      </div>
+    <!-- Sección Historial -->
+    <div id="seccionHistorial" style="display: none;">
+      <h5 class="seccion-titulo">🧾 Historial de Facturas</h5>
+      <button class="btn btn-secondary mb-2" id="toggleFacturas" onclick="FacturadorApp.toggleFacturas()">Ocultar facturas</button>
+      <div id="factura"></div>
+      <button class="btn btn-danger mt-3" onclick="FacturadorApp.limpiarHistorial()">🧹 Limpiar historial</button>
     </div>
   </div>
 
   <audio id="beep-add" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
   <audio id="beep-del" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
-  <script src="logica.js"></script>
+  <script src="logica.js" defer></script>
 </body>
 </html>

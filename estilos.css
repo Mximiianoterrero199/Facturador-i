@@ -1,176 +1,135 @@
+:root {
+  --primario: #ffe600;
+  --oscuro: #222;
+  --claro: #f5f5f5;
+  --borde: #ccc;
+  --error: #ff4d4f;
+  --exito-bg: #d2f8d2;
+  --exito-texto: #256029;
+}
+
 body {
-  background-color: #0a0a0a;
-  color: #0ff;
-  font-family: 'Orbitron', monospace;
-  padding: 2rem;
+  background-color: var(--claro);
+  color: var(--oscuro);
+  font-family: 'Roboto', sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.modo-oscuro {
+  background-color: #1a1a1a;
+  color: #eee;
+}
+
+body.modo-oscuro .factura-card,
+body.modo-oscuro .producto,
+body.modo-oscuro #sidebar {
+  background-color: #2a2a2a;
+  color: #eee;
+}
+
+body.modo-oscuro .btn-primary {
+  background-color: #ffc800;
+  color: #000;
 }
 
 .navbar {
-  background-color: #111 !important;
-  border-bottom: 2px solid #0ff !important;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.53);
+  background-color: var(--primario);
   padding: 1rem 2rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  border-radius: 8px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-brand {
   font-size: 1.6rem;
-  color: #00ffff !important;
   font-weight: bold;
-  text-shadow: 0 0 8px #00ffff, 0 0 15px rgba(0, 255, 255, 0.5);
-}
-
-.navbar-toggler {
-  border: 1px solid #00ffff;
-  box-shadow: 0 0 6px #00ffff;
-  background-color: #000;
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%2300ffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-  filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.8));
 }
 
 .seccion-titulo {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+  border-bottom: 2px solid var(--primario);
   padding-bottom: 0.3rem;
-  text-shadow: 0 0 6px rgba(0, 255, 255, 0.7);
 }
 
+.factura-card,
+.producto,
 #sidebar {
-  background: linear-gradient(180deg, #111, #0a0a0a);
+  background-color: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
   padding: 1rem 1.5rem;
-  border: 1px solid #00ffff;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.33);
-  border-radius: 10px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: background 0.3s, color 0.3s;
 }
 
-#totalVentas {
-  font-size: 2.2rem;
+input,
+select {
+  background-color: #fff;
+  border: 1px solid var(--borde);
+  color: var(--oscuro);
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+input.invalid {
+  border-color: var(--error);
+  box-shadow: 0 0 5px rgba(255, 77, 79, 0.5);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primario);
+  box-shadow: 0 0 5px rgba(255, 230, 0, 0.5);
+}
+
+.btn-primary {
+  background-color: var(--primario);
+  color: #000;
   font-weight: bold;
-  margin-top: 0.5rem;
-  transition: transform 0.3s ease;
+  border: none;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #e0cc00;
+}
+
+.borrar {
+  background-color: var(--error);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+}
+
+.borrar:hover {
+  background-color: #cc393a;
+}
+
+.alert-success {
+  background-color: var(--exito-bg);
+  color: var(--exito-texto);
+  border: 1px solid #a5d6a7;
+  padding: 0.75rem;
+  border-radius: 4px;
+  transition: opacity 0.3s ease;
 }
 
 hr.separador {
   border: none;
   height: 1px;
-  background: radial-gradient(circle, #0ff, transparent);
+  background-color: #ccc;
   margin: 2rem 0;
 }
 
-.factura-card {
-  background-color: #111;
-  border: 1px solid #00ffff;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-input {
-  background-color: #000;
-  border: 1px solid #00ffff;
-  color: #00ffff;
-  box-shadow: 0 0 4px rgba(0, 255, 255, 0.3) inset;
-}
-
-input:focus {
-  outline: none;
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
-}
-
-.btn-primary {
-  background-color: #00ffff;
-  color: #000;
-  font-weight: bold;
-  border: none;
-  box-shadow: 0 0 8px #00ffff;
-  transition: background 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: #00cccc;
-}
-
-.producto {
-  background-color: #111;
-  padding: 16px 24px;
-  border: 1px solid rgba(0, 255, 255, 0.7);
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), inset 0 0 6px rgba(0, 255, 255, 0.2);
-  border-radius: 8px;
-  margin-bottom: 16px;
-  animation: fadeIn 0.4s ease-out, pulsoNeon 5s infinite;
+#factura .producto {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
-}
-
-.producto strong {
-  font-size: 1rem;
-  color: #00ffff;
-}
-
-.producto span {
-  font-size: 0.9rem;
-  color: #adf7ff;
-}
-
-.borrar {
-  background-color: #e74c3c;
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.borrar:hover {
-  background-color: #c0392b;
-  box-shadow: 0 0 8px rgba(255, 91, 91, 0.5);
-}
-
-.alert-success {
-  background-color: #00ff66;
-  color: #000;
-  font-weight: bold;
-  border: none;
-  box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulsoNeon {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.33),
-                inset 0 0 6px rgba(0, 255, 255, 0.13);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6),
-                inset 0 0 10px rgba(0, 255, 255, 0.4);
-  }
-}
-
-@media (max-width: 768px) {
-  .contenido .row {
-    flex-direction: column;
-  }
-
-  .producto {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
